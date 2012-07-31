@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    
+    <head>
+        <meta name="viewport" content="width=320; user-scalable=no" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>Weibo OAuth</title>
+        <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+        <script>
+        	window.onload = function() {
+        		console.log("onload");
+	        	if(location.hash.indexOf("#oauth") >= 0) {
+	        		console.log(location.hash);
+	        		var values = location.hash.match("access_token=(.*)&remind_in=(.*)&expires_in=(.*)&uid=(.*)");
+	                var access_token = values[1];
+	                var remind_in = values[2];
+	                var expires_in = values[3];
+	                var uid = values[4];
+	                document.getElementById("content").innerText = "access_token: " + access_token;
+	        	}
+        	}
+        
+        	window.onhashchange = function(evt) {
+        		console.log(evt.newURL);
+        	}
+        
+            function login() {
+            	alert(location.href);
+            	
+                var redirect_uri = "file:///android_asset/www/index.html#oauth";
+                var encode_redirect_uri = encodeURIComponent(redirect_uri);
+                var url = "https://api.weibo.com/oauth2/authorize?display=mobile&client_id=141885366&response_type=token&redirect_uri=" + encode_redirect_uri;
+                
+				location.href = url;
+            }
+        </script>
+    </head>
+    
+    <body>
+        <button id="login" onclick="login();">登陆</button>
+        <p id="content"></p>
+    </body>
+
+</html>
+
